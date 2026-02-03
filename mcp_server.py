@@ -152,5 +152,20 @@ def list_buckets() -> str:
     return json.dumps(result, indent=2) if result else "No buckets found."
 
 
+@mcp.tool()
+def list_bucket_files(bucket_name: str) -> str:
+    """List all files in a Qarnot storage bucket.
+
+    Args:
+        bucket_name: The name of the bucket
+    """
+    conn = get_connection()
+    bucket = conn.retrieve_bucket(bucket_name)
+
+    import json
+    files = [f.key for f in bucket.list_files()]
+    return json.dumps(files, indent=2) if files else "No files in bucket."
+
+
 if __name__ == "__main__":
     mcp.run()
