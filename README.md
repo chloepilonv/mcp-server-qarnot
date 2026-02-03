@@ -1,7 +1,9 @@
 # Qarnot MCP Server
 
 An MCP (Model Context Protocol) server that lets AI client (here, Claude) interact with your Qarnot tasks, using Anthropic MCP Python SDK. 
-When you connect it to your AI assistant (Personal Chatbot, Claude, etc.), you can then interact with it naturally to retrieve informations about your task running on Qarnot (ex : What is the status of my last task?). 
+When you connect it to your AI assistant (Personal Chatbot, Claude, etc.), you can then interact with it naturally to retrieve informations about your task running on Qarnot (ex : What is the status of my last task?).
+
+![Usage example](Usage_example.png)
 
 ## What it does
 
@@ -27,11 +29,13 @@ Gives the client access to these tools:
 
 ### With Claude Code (CLI)
 
+To give Claude the abilities to use the tools from the MCP Server, you can : 
+
 ```bash
 claude mcp add qarnot python3 /path/to/server.py
 ```
 
-Restart Claude Code. Then ask your requests (Ex : *"List my Qarnot tasks"*)
+And restart Claude Code. You can then ask your requests (Ex : *"List my Qarnot tasks"*) to Claude. 
 
 ### Debugging or Manual test
 
