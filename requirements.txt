@@ -1,0 +1,3 @@
+qarnot
+mcp[cli]
+python-dotenv

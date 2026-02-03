@@ -1,0 +1,4 @@
+.env
+task.py
+bucket/
+__pycache__/
