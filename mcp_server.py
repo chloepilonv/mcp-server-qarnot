@@ -167,5 +167,21 @@ def list_bucket_files(bucket_name: str) -> str:
     return json.dumps(files, indent=2) if files else "No files in bucket."
 
 
+@mcp.tool()
+def download_result(bucket_name: str, remote_path: str, local_path: str) -> str:
+    """Download a file from a Qarnot bucket to your local machine.
+
+    Args:
+        bucket_name: The name of the bucket
+        remote_path: The path of the file in the bucket
+        local_path: Where to save the file locally. If not specified in the prompt, the AI may ask for it.
+    """
+    conn = get_connection()
+    bucket = conn.retrieve_bucket(bucket_name)
+
+    bucket.get_file(remote_path, local_path)
+    return f"Downloaded '{remote_path}' from '{bucket_name}' to '{local_path}'"
+
+
 if __name__ == "__main__":
     mcp.run()
