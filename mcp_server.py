@@ -136,5 +136,21 @@ def cancel_task(uuid: str) -> str:
     return f"Task {uuid} has been cancelled."
 
 
+@mcp.tool()
+def list_buckets() -> str:
+    """List all storage buckets in your Qarnot account."""
+    conn = get_connection()
+    buckets = conn.buckets()
+
+    import json
+    result = []
+    for bucket in buckets:
+        result.append({
+            "name": bucket.uuid,
+        })
+
+    return json.dumps(result, indent=2) if result else "No buckets found."
+
+
 if __name__ == "__main__":
     mcp.run()
