@@ -16,6 +16,7 @@ Gives the client access to these tools:
 - **list_buckets** - List all storage buckets
 - **list_bucket_files** - List files in a bucket
 - **download_result** - Download a file from a bucket
+- **list_profiles** - List available hardware profiles
 
 ## Setup
 

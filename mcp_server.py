@@ -183,5 +183,16 @@ def download_result(bucket_name: str, remote_path: str, local_path: str) -> str:
     return f"Downloaded '{remote_path}' from '{bucket_name}' to '{local_path}'"
 
 
+@mcp.tool()
+def list_profiles() -> str:
+    """List all available hardware profiles for your Qarnot account."""
+    conn = get_connection()
+    profiles = conn.profiles()
+
+    import json
+    result = [p.name for p in profiles]
+    return json.dumps(result, indent=2)
+
+
 if __name__ == "__main__":
     mcp.run()
