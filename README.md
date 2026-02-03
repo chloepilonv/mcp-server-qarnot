@@ -32,7 +32,7 @@ Gives the client access to these tools:
 To give Claude the abilities to use the tools from the MCP Server, you can : 
 
 ```bash
-claude mcp add qarnot python3 /path/to/server.py
+claude mcp add qarnot python3 /path/to/mcp_server.py
 ```
 
 And restart Claude Code. You can then ask your requests (Ex : *"List my Qarnot tasks"*) to Claude. 
@@ -40,7 +40,7 @@ And restart Claude Code. You can then ask your requests (Ex : *"List my Qarnot t
 ### Debugging or Manual test
 
 ```bash
-mcp dev server.py
+mcp dev mcp_server.py
 ```
 
 One can use the interactive MCP Inspector (https://modelcontextprotocol.io/docs/tools/inspector) to test their MCP Server.
@@ -48,7 +48,7 @@ One can use the interactive MCP Inspector (https://modelcontextprotocol.io/docs/
 ### Tools definition
 
 A tool is, in brief, an action that can be performed by the AI agent via the MCP. For example, "List tasks" is an action that can be performed by the agent if you ask it to list your current tasks.
-To add a new tool, go to server.py and use the following format (here, an example with list_tasks):
+To add a new tool, go to mcp_server.py and use the following format (here, an example with list_tasks):
 
 ```python
 @mcp.tool() #the Anthropic decorator to create a MCP tool

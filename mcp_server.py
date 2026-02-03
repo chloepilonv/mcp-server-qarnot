@@ -119,5 +119,22 @@ def get_task_stderr(uuid: str, instance_id: int | None = None) -> str:
     return stderr or "(no error output)"
 
 
+@mcp.tool()
+def cancel_task(uuid: str) -> str:
+    """Cancel a running Qarnot task.
+
+    Args:
+        uuid: The UUID of the task to cancel
+    """
+    conn = get_connection()
+    task = conn.retrieve_task(uuid)
+
+    if task.state in ["Cancelled", "Success", "Failure"]:
+        return f"Task {uuid} is already in state '{task.state}' and cannot be cancelled."
+
+    task.abort()
+    return f"Task {uuid} has been cancelled."
+
+
 if __name__ == "__main__":
     mcp.run()
