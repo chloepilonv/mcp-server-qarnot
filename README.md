@@ -3,7 +3,7 @@
 An MCP (Model Context Protocol) server that lets AI client (here, Claude) interact with your Qarnot tasks, using Anthropic MCP Python SDK. 
 When you connect it to your AI assistant (Personal Chatbot, Claude, etc.), you can then interact with it naturally to retrieve informations about your task running on Qarnot (ex : What is the status of my last task?).
 
-![Usage example](Usage_example.png)
+![Usage example](usage_example.png)
 
 ## What it does
 
@@ -12,6 +12,10 @@ Gives the client access to these tools:
 - **get_task_status** - Get detailed status + SSH connection info
 - **get_task_stdout** - Get task output
 - **get_task_stderr** - Get task errors
+- **cancel_task** - Cancel a running task
+- **list_buckets** - List all storage buckets
+- **list_bucket_files** - List files in a bucket
+- **download_result** - Download a file from a bucket
 
 ## Setup
 
