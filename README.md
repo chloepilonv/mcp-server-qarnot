@@ -8,6 +8,7 @@ When you connect it to your AI assistant (Personal Chatbot, Claude, etc.), you c
 ## What it does
 
 Gives the client access to these tools:
+- **create_task (BETA)** - Create a task where you can specify the profile, the scheduling type, the input bucket, snapshots, etc.
 - **list_tasks** - List all your Qarnot tasks
 - **get_task_status** - Get detailed status + SSH connection info
 - **get_task_stdout** - Get task output
@@ -17,6 +18,8 @@ Gives the client access to these tools:
 - **list_bucket_files** - List files in a bucket
 - **download_result** - Download a file from a bucket
 - **list_profiles** - List available hardware profiles
+
+What is really cool : You can ask the Agent to cancel the task after 24 hours. To list your profiles and then create a task with a specific profile. To get task output and cancel the task when it has converge. Etc. 
 
 ## Setup
 
@@ -32,7 +35,7 @@ Gives the client access to these tools:
 
 ## Usage
 
-### With Claude Code (CLI)
+### With Claude Code (CLI) (Locally)
 
 To give Claude the abilities to use the tools from the MCP Server, you can : 
 
@@ -41,6 +44,11 @@ claude mcp add qarnot python3 /path/to/mcp_server.py
 ```
 
 And restart Claude Code. You can then ask your requests (Ex : *"List my Qarnot tasks"*) to Claude. 
+
+### With Claude Web (Online)
+
+Add to your connectors after installing the MCP server on a server (Qarnot, AWS, OVH, etc.). Team and Enterprise workflow explained here : 
+https://support.claude.com/en/articles/11175166-getting-started-with-custom-connectors-using-remote-mcp
 
 ### Debugging or Manual test
 

@@ -194,5 +194,92 @@ def list_profiles() -> str:
     return json.dumps(result, indent=2)
 
 
+@mcp.tool()
+def create_task(
+    name: str,
+    profile: str,
+    instance_count: int = 1,
+    resource_bucket: str | None = None,
+    result_bucket: str | None = None,
+    constants: str | None = None,
+    scheduling_type: str | None = None,
+    snapshot_interval: int | None = None,
+    snapshot_whitelist: str | None = None,
+    snapshot_blacklist: str | None = None,
+    results_whitelist: str | None = None,
+    results_blacklist: str | None = None,
+    upload_results_on_cancellation: bool | None = None,
+    hardware_constraints: str | None = None,
+) -> str:
+    """Create and submit a new Qarnot task.
+
+    Args:
+        name: Name for the task
+        profile: Hardware profile to use (e.g., 'docker-batch', 'blender-4.2.2')
+        instance_count: Number of instances to run (default: 1)
+        resource_bucket: Optional input bucket name for resources
+        result_bucket: Optional output bucket name for results
+        constants: JSON string of environment variables (e.g., '{"DOCKER_CMD": "python run.py"}')
+        scheduling_type: 'flex' or 'onDemand'
+        snapshot_interval: Seconds between snapshots (e.g., 600 for every 10 min)
+        snapshot_whitelist: JSON array of patterns to include in snapshots (e.g., '["*.vtk", "output/*"]')
+        snapshot_blacklist: JSON array of patterns to exclude from snapshots
+        results_whitelist: JSON array of patterns to include in results
+        results_blacklist: JSON array of patterns to exclude from results
+        upload_results_on_cancellation: Whether to save results if task is cancelled
+        hardware_constraints: JSON array of hardware constraints (e.g., '[{"discriminant": "MinimumCoreCount", "value": 4}]')
+    """
+    import json as json_module
+
+    conn = get_connection()
+    task = conn.create_task(name, profile, instance_count)
+
+    if resource_bucket:
+        bucket_in = conn.retrieve_bucket(resource_bucket)
+        task.resources.append(bucket_in)
+
+    if result_bucket:
+        bucket_out = conn.retrieve_bucket(result_bucket)
+        task.results = bucket_out
+
+    if constants:
+        task.constants = json_module.loads(constants)
+
+    if scheduling_type:
+        from qarnot.scheduling_type import SchedulingType
+        task.scheduling_type = SchedulingType[scheduling_type.upper()] if scheduling_type.upper() in ['FLEX', 'ONDEMAND'] else None
+
+    if snapshot_whitelist:
+        task.snapshot_whitelist = json_module.loads(snapshot_whitelist)
+
+    if snapshot_blacklist:
+        task.snapshot_blacklist = json_module.loads(snapshot_blacklist)
+
+    if results_whitelist:
+        task.results_whitelist = json_module.loads(results_whitelist)
+
+    if results_blacklist:
+        task.results_blacklist = json_module.loads(results_blacklist)
+
+    if upload_results_on_cancellation is not None:
+        task.upload_results_on_cancellation = upload_results_on_cancellation
+
+    if hardware_constraints:
+        task.hardware_constraints = json_module.loads(hardware_constraints)
+
+    task.submit()
+
+    if snapshot_interval:
+        task.snapshot(snapshot_interval)
+
+    return json_module.dumps({
+        "status": "submitted",
+        "uuid": task.uuid,
+        "name": task.name,
+        "profile": profile,
+        "instance_count": instance_count,
+    }, indent=2)
+
+
 if __name__ == "__main__":
     mcp.run()
